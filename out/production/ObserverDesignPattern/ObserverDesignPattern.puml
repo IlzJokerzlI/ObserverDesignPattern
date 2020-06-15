@@ -1,0 +1,48 @@
+@startuml
+Editor o--> EventManager
+EventManager o--> EventListener
+
+'class Application {
+'
+'}
+
+'class EventType {
+'}
+
+class Editor {
+    - eventManager:EventManager
+    - file:File
+
+    + Editor()
+    + openFile(path:String)
+    + saveFile()
+    + getEventManager():EventManager
+}
+
+class EventManager {
+    - listeners:HashMap<EventType.Type, ArrayList<EventListener>>
+
+    + EventManager()
+    + subscribe(eventType:EventType.Type, listener:EventListener)
+    + unsubscribe(eventType:EventType.Type, listener:EventListener)
+    + notify(eventType:EventType.Type, fileName:String)
+}
+
+Interface EventListener {
+    + update(fileName:String)
+}
+
+class LoggingListener implements EventListener {
+    - log:File
+
+    + LoggingListener(logFileName:String)
+    + update(fileName:String)
+}
+
+class EmailAlertsListener implements EventListener {
+    - email:String
+
+    + EmailAlertsListener(email:String)
+    + update(fileName:String)
+}
+@enduml
